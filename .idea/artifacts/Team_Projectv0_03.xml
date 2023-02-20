@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Team Projectv0.03">
+    <output-path>$PROJECT_DIR$/out/artifacts/Team_Projectv0_03</output-path>
+    <root id="archive" name="Team Projectv0.03.jar">
+      <element id="module-output" name="Team Project" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/jogl-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/gluegen-rt.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
