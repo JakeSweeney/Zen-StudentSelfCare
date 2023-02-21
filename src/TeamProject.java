@@ -1,11 +1,13 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.io.FileWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 public class TeamProject extends PApplet {
-    PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,homeHover,mainMenu,breathingAnimation;
+    PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,
+            homeHover,mainMenu,breathingAnimation,userSelect;
     final int HOME=0;
     final int USER=1;
     final int MENU=2;
@@ -22,11 +24,21 @@ public class TeamProject extends PApplet {
     float circleRotation = -1;
     float breathingFactor = 0.0F;
     int questionPicker = (int) random(3);
-    int gameMode=HOME;
+    int gameMode=USER;
     int qPickScreen=QCLOUD;
     int userScore = 0;
+    static int user1ExpStart;
+    static int user2ExpStart;
+    static int user3ExpStart;
+    int user1Exp = user1ExpStart;
+    int user2Exp = user2ExpStart;
+    int user3Exp = user3ExpStart;
+    static File userData=new File("userData.txt");
     boolean initialStartup = true;
     String textboxInput = "";
+
+
+
     public void settings() {
         size(800, 800);
         //surface.setResizable(true);
@@ -57,13 +69,33 @@ public class TeamProject extends PApplet {
                 }
                 break;
         }
-
     }
 
     public static void main(String[] args) {
         String[] processingArgs = {"TeamProject"};
         TeamProject teamProject = new TeamProject();
         PApplet.runSketch(processingArgs, teamProject);
+        try{
+            user1ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(2));
+            user2ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(4));
+            user3ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(6));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        long lines=0;
+//        try{
+//            LineNumberReader lnr = new LineNumberReader(new FileReader(userData));
+//            while (lnr.readLine()!=null){
+//                lines=lnr.getLineNumber();
+//                if (lines==2){
+//                    user1Exp=
+//                }
+//
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     public void breathingAnimation() {
         background(0);
@@ -131,6 +163,9 @@ public class TeamProject extends PApplet {
     public void userSelect() {
         menuScreen=loadImage("MenuScreenConcept.png");
         image(menuScreen,0,0,width,height);
+        userSelect=loadImage("UserSelect.png");
+        image(userSelect,170,8);
+
     }
     public void menuScreen() {
         menuScreen=loadImage("MenuScreenConcept.png");

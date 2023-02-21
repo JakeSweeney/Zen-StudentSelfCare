@@ -1,9 +1,6 @@
 User 1
 0
-0
 User 2
 0
-0
 User 3
-0
 0
