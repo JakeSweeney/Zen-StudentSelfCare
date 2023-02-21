@@ -1,11 +1,16 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 public class TeamProject extends PApplet {
     PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,homeHover,mainMenu,breathingAnimation;
     final int HOME=0;
-    final int MENU=1;
-    final int ANIMATION=2;
-    final int STARTUPQUESTION=3;
+    final int USER=1;
+    final int MENU=2;
+    final int ANIMATION=3;
+    final int STARTUPQUESTION=4;
     final int QCLOUD=0;
     final int QCLOUDRESULT=1;
     float circleX=(float) width*4;
@@ -17,7 +22,7 @@ public class TeamProject extends PApplet {
     float circleRotation = -1;
     float breathingFactor = 0.0F;
     int questionPicker = (int) random(3);
-    int gameMode=STARTUPQUESTION;
+    int gameMode=HOME;
     int qPickScreen=QCLOUD;
     int userScore = 0;
     boolean initialStartup = true;
@@ -31,6 +36,9 @@ public class TeamProject extends PApplet {
         switch(gameMode) {
             case(HOME):
                 homeScreen();
+                break;
+            case(USER):
+                userSelect();
                 break;
             case(MENU):
                 menuScreen();
@@ -119,6 +127,10 @@ public class TeamProject extends PApplet {
         if(mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30){
             image(playHover,width-160,height-180);
         }
+    }
+    public void userSelect() {
+        menuScreen=loadImage("MenuScreenConcept.png");
+        image(menuScreen,0,0,width,height);
     }
     public void menuScreen() {
         menuScreen=loadImage("MenuScreenConcept.png");
