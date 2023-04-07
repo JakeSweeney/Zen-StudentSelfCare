@@ -24,6 +24,7 @@ public class TeamProject extends PApplet {
     int questionPicker = (int) random(3);
     int gameMode=STARTUPQUESTION;
     int qPickScreen=QCLOUD;
+    PImage[] plantAnimation=new PImage[7];
     String textboxInput = "";
     boolean showResult = false;
     int userScore = 0;
