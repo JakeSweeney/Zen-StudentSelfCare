@@ -1,15 +1,13 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
+import javax.swing.*;
+
 public class TeamProject extends PApplet {
     PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,
             homeHover,mainMenu,breathingAnimation,userSelect;
     final int HOME=0;
-    final int USER=1;
+    final int PLANT=1;
     final int MENU=2;
     final int ANIMATION=3;
     final int STARTUPQUESTION=4;
@@ -24,33 +22,26 @@ public class TeamProject extends PApplet {
     float circleRotation = -1;
     float breathingFactor = 0.0F;
     int questionPicker = (int) random(3);
-    int gameMode=USER;
+    int gameMode=STARTUPQUESTION;
     int qPickScreen=QCLOUD;
-    int userScore = 0;
-    static int user1ExpStart;
-    static int user2ExpStart;
-    static int user3ExpStart;
-    int user1Exp = user1ExpStart;
-    int user2Exp = user2ExpStart;
-    int user3Exp = user3ExpStart;
-    static File userData=new File("userData.txt");
-    boolean initialStartup = true;
     String textboxInput = "";
-
+    boolean showResult = false;
+    int userScore = 0;
+    boolean canAnswer = true;
 
 
     public void settings() {
         size(800, 800);
-        //surface.setResizable(true);
     }
 
     public void draw() {
+
         switch(gameMode) {
             case(HOME):
                 homeScreen();
                 break;
-            case(USER):
-                userSelect();
+            case(PLANT):
+                plantAnimation();
                 break;
             case(MENU):
                 menuScreen();
@@ -69,33 +60,13 @@ public class TeamProject extends PApplet {
                 }
                 break;
         }
+
     }
 
     public static void main(String[] args) {
         String[] processingArgs = {"TeamProject"};
         TeamProject teamProject = new TeamProject();
         PApplet.runSketch(processingArgs, teamProject);
-        try{
-            user1ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(2));
-            user2ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(4));
-            user3ExpStart= Integer.parseInt(Files.readAllLines(Paths.get("userData.txt")).get(6));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        long lines=0;
-//        try{
-//            LineNumberReader lnr = new LineNumberReader(new FileReader(userData));
-//            while (lnr.readLine()!=null){
-//                lines=lnr.getLineNumber();
-//                if (lines==2){
-//                    user1Exp=
-//                }
-//
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
     public void breathingAnimation() {
         background(0);
@@ -134,7 +105,6 @@ public class TeamProject extends PApplet {
         }
     }
     public void homeScreen(){
-        //surface.setSize(800,800);
         titleScreen=loadImage("TitleScreen.png");
         imageMode(CORNER);
         image(titleScreen,0,0,width,height);
@@ -160,11 +130,7 @@ public class TeamProject extends PApplet {
             image(playHover,width-160,height-180);
         }
     }
-    public void userSelect() {
-        menuScreen=loadImage("MenuScreenConcept.png");
-        image(menuScreen,0,0,width,height);
-        userSelect=loadImage("UserSelect.png");
-        image(userSelect,170,8);
+    public void plantAnimation(){
 
     }
     public void menuScreen() {
@@ -216,44 +182,60 @@ public class TeamProject extends PApplet {
         } else if (questionPicker == 2) {
             text("How many minutes did you spend exercising today?", width/2, height/2 - 50);
         }
-    }
-    public void questionTextBox() {
-        fill(100);
-        rect(width/2-200, height/2 + 25, 400, 50);
-        fill(255);
-        textSize(28);
-        text(textboxInput, width/2, height/2 + 50);
-        fill(100);
-        rect(width/2 + 200, height/2 + 25, 80, 50);
-        fill(255);
+        textSize(24);
+        text("Click to answer", width/2, height/2 + 20);
         textSize(20);
-        text("Submit", width/2 + 225, height/2 + 50);
+        text("Session score: "+userScore+".",120,760);
     }
-    public void keyPressed() {
-        if (keyCode == BACKSPACE) {
-            textboxInput = textboxInput.substring(0, max(0, textboxInput.length() - 1));
-        } else if (keyCode != SHIFT && keyCode != CONTROL && keyCode != ALT) {
-            textboxInput = textboxInput + key;
-        }
-    }
+//    public void questionTextBox() {
+//        fill(100);
+//        rect(width/2-200, height/2 + 25, 400, 50);
+//        fill(255);
+//        textSize(28);
+//        text(textboxInput, width/2, height/2 + 50);
+//        fill(100);
+//        rect(width/2 + 200, height/2 + 25, 80, 50);
+//        fill(255);
+//        textSize(20);
+//        text("Submit", width/2 + 225, height/2 + 50);
+//    }
+//    public void keyPressed() {
+//        if (keyCode == BACKSPACE) {
+//            textboxInput = textboxInput.substring(0, max(0, textboxInput.length() - 1));
+//        } else if (keyCode != SHIFT && keyCode != CONTROL && keyCode != ALT) {
+//            textboxInput = textboxInput + key;
+//        }
+//    }
     public void mousePressed() {
-        if (mouseX > width/2 + 200 && mouseX < width/2 + 280 && mouseY > height/2 + 25 && mouseY < height/2 + 100) {
-            userScore = Integer.parseInt(textboxInput);
-            qPickScreen=QCLOUDRESULT;
+        if (mouseX > width/2 - 200 && mouseX < width/2 + 200 && mouseY > height/2 - 100 && mouseY < height/2 + 100 && canAnswer) {
+            textboxInput = JOptionPane.showInputDialog(null, "Enter your answer: ");
+            if (textboxInput != null && !textboxInput.equals("")) {
+                try {
+                    userScore = Integer.parseInt(textboxInput);
+                    userScore = userScore*10;
+                    canAnswer = false;
+                    qPickScreen=QCLOUDRESULT;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
     public void startupQuestionScreen(){
         questionCloud();
-        questionTextBox();
+        if (mousePressed){
+            mousePressed();
+        }
     }
     public void resultScreen() {
-        fill(255);
-        rect(0, 0, width, height);
-        fill(0);
+        background(74, 176, 101);
         textSize(32);
         textAlign(CENTER, CENTER);
-        text("Congratulations! ", width/2, height/2 - 75);
+        fill(0);
+        text("Congratulations!", width/2, height/2 - 75);
         textSize(28);
-        text("You have earned " + userScore * 10 + " points", width/2, height/2 + 25);
+        text("You have earned " + userScore + " points", width/2, height/2 + 25);
+        textSize(20);
+        text("Session score: "+userScore+".",120,760);
     }
 }
