@@ -1,16 +1,19 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
+import processing.sound.*;
 import javax.swing.*;
 
 public class TeamProject extends PApplet {
     PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,
-            homeHover,mainMenu,breathingAnimation,userSelect,next,nextHover;
+            homeHover,mainMenu,breathingAnimation,next,nextHover,websiteHub,
+            musicBorder,musicNotes,pause,pauseHover,add,addHover,minus,minusHover;
     final int HOME=0;
     final int PLANT=1;
     final int MENU=2;
     final int ANIMATION=3;
     final int STARTUPQUESTION=4;
+    final int WEBSITEHUB = 5;
+    final int MUSIC = 6;
     final int QCLOUD=0;
     final int QCLOUDRESULT=1;
     float circleX=(float) width*4;
@@ -21,22 +24,60 @@ public class TeamProject extends PApplet {
     float circleSpacing = circleRadius / 9;
     float circleRotation = -1;
     float breathingFactor = 0.0F;
+    float noteX = 0;
+    float noteY = 0;
+    float volume = (float) 0.2;
     int questionPicker = (int) random(3);
-    int gameMode=HOME;
+    int gameMode=MUSIC;
     int qPickScreen=QCLOUD;
     int userScore = 0;
     int plantCounter = 0;
+    int buffer = 0;
+    SoundFile music;
     PImage[] plantAnimation=new PImage[7];
+    PImage[] images = new PImage[9];
     String textboxInput = "";
+    String[] urls = {
+            "https://www.mmu.ac.uk/library", "https://my.mmu.ac.uk/campusm/home#menu", "https://studenthub.mmu.ac.uk/",
+            "https://www.myfitnesspal.com/", "https://github.com/", "https://www.youtube.com/",
+            "https://www.linkedin.com", "https://www.instagram.com/", "https://www.stackoverflow.com"
+    };
     boolean showResult = false;
     boolean canAnswer = false;
-
+    boolean startup = true;
+    boolean ping = true;
 
     public void settings() {
         size(800, 800);
         for(int i=0; i<plantAnimation.length;i++){
             plantAnimation[i]=loadImage("plant"+(i+1)+".png");
         }
+        for (int i = 0; i < images.length; i++) {
+            images[i] = loadImage("Image" + (i + 1) + ".jpg");
+        }
+        music=new SoundFile(this,"calm.mp3");
+        menuScreen=loadImage("MenuScreenConcept.png");
+        home=loadImage("HomeConcept.png");
+        homeHover=loadImage("HomeHoverConcept.png");
+        titleScreen=loadImage("TitleScreen.png");
+        title=loadImage("TitleConcept.png");
+        quit=loadImage("QuitConcept.png");
+        quitHover=loadImage("QuitHoverConcept.png");
+        play=loadImage("PlayConcept.png");
+        playHover=loadImage("PlayHover.png");
+        next=loadImage("NextConcept.png");
+        nextHover=loadImage("NextHoverConcept.png");
+        mainMenu=loadImage("MainMenuConcept.png");
+        breathingAnimation=loadImage("breathingAnimationText.png");
+        websiteHub=loadImage("websiteHubText.png");
+        musicBorder=loadImage("musicBorder.png");
+        musicNotes=loadImage("musicNotes.png");
+        pause=loadImage("pause.png");
+        pauseHover=loadImage("pauseHover.png");
+        add=loadImage("add.png");
+        addHover=loadImage("addHover.png");
+        minus=loadImage("minus.png");
+        minusHover=(loadImage("minusHover.png"));
     }
 
     public void draw() {
@@ -63,6 +104,12 @@ public class TeamProject extends PApplet {
                         break;
                 }
                 break;
+            case(WEBSITEHUB):
+                websiteHub();
+                break;
+            case(MUSIC):
+                music();
+                break;
         }
     }
 
@@ -71,53 +118,13 @@ public class TeamProject extends PApplet {
         TeamProject teamProject = new TeamProject();
         PApplet.runSketch(processingArgs, teamProject);
     }
-    public void breathingAnimation() {
-        background(0);
-        float breathingPhase = millis() % breathingCycle;
-        if (breathingPhase < breathingCycle / 2) {
-            breathingFactor = (float) (breathingPhase / (breathingCycle / 2.0));
-        } else {
-            breathingFactor = (float) (2 - breathingPhase / (breathingCycle / 2.0));
-        }
-        for (int i = 0; i < circleCount; i++) {
-            fill(173, 216, 230, 98);
-            stroke(255, 100);
-            float x = circleX + (circleRadius + circleSpacing * breathingFactor) * sin(radians(circleRotation + 360 / circleCount * i));
-            float y = circleY + (circleRadius + circleSpacing * breathingFactor) * cos(radians(circleRotation + 360 / circleCount * i));
-            ellipse(x, y, circleRadius * 2 * breathingFactor, circleRadius * 2 * breathingFactor);
-        }
 
-        fill(173, 216, 230,180);
-        textSize(15);
-        textAlign(CENTER, BOTTOM);
-        text("Be still, and bring your attention to your breathing", width/2, height-30);
-
-        fill(255,290);
-        textSize(15);
-        textAlign(CENTER, BOTTOM);
-        text("Inhale, and exhale all the negativity", width/2, height-60);
-        home=loadImage("HomeConcept.png");
-        homeHover=loadImage("HomeHoverConcept.png");
-        if(mouseX>=width-170&&mouseX<=width-25&&mouseY>=10&&mouseY<=160){
-            image(homeHover,width-170,10,150,150);
-        } else {
-            image(home,width-170,10,150,150);
-        }
-        if(mousePressed==true&&mouseX>=width-170&&mouseX<=width-25&&mouseY>=10&&mouseY<=160){
-            gameMode=HOME;
-        }
-    }
     public void homeScreen(){
-        titleScreen=loadImage("TitleScreen.png");
+
         imageMode(CORNER);
         image(titleScreen,0,0,width,height);
-        title=loadImage("TitleConcept.png");
         image(title,135,63,500,125);
-        quit=loadImage("QuitConcept.png");
-        quitHover=loadImage("QuitHoverConcept.png");
-        play=loadImage("PlayConcept.png");
         image(play,width-160,height-180);
-        playHover=loadImage("PlayHover.png");
         if (mousePressed==true&&mouseX>=50&&mouseX<=250&&mouseY>=height-210&&mouseY<=height-10) {
             exit();
         }
@@ -126,17 +133,17 @@ public class TeamProject extends PApplet {
         }else{
             image(quit,50,height-210);
         }
-        if (mousePressed==true&&mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30){
+        if (mousePressed==true&&mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30&&startup==true){
             gameMode=PLANT;
+        } else if (mousePressed==true&&mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30&&startup==false){
+            gameMode=MENU;
         }
         if(mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30){
             image(playHover,width-160,height-180);
         }
     }
     public void plantAnimation(){
-        next=loadImage("NextConcept.png");
-        nextHover=loadImage("NextHoverConcept.png");
-
+        startup=false;
         imageMode(CORNER);
 //        image(plantAnimation[plantCounter/90%plantAnimation.length],0,0,width,height);
         if(plantCounter<180 && (plantCounter/20)%2==0){
@@ -164,35 +171,7 @@ public class TeamProject extends PApplet {
         }
         plantCounter++;
     }
-    public void menuScreen() {
-        menuScreen=loadImage("MenuScreenConcept.png");
-        image(menuScreen,0,0,width,height);
-        home=loadImage("HomeConcept.png");
-        homeHover=loadImage("HomeHoverConcept.png");
-        if(mouseX>=20&&mouseX<=150&&mouseY>=10&&mouseY<=140){
-            image(homeHover,5,1,150,150);
-        }else{
-            image(home,5,1,150,150);
-        }
-        if(mousePressed==true&&mouseX>=20&&mouseX<=150&&mouseY>=10&&mouseY<=140){
-            gameMode=HOME;
-        }
-        play=loadImage("PlayConcept.png");
-        playHover=loadImage("PlayHover.png");
-        mainMenu=loadImage("MainMenuConcept.png");
-        image(mainMenu,170,8);
-        breathingAnimation=loadImage("breathingAnimationText.png");
-        if(mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
-            image(playHover,5,190,100,100);
-        }else{
-            image(play,5,190,100,100);
-        }
-        if(mousePressed==true&&mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
-            gameMode=ANIMATION;
-        }
-        image(breathingAnimation,140,198);
 
-    }
     public void questionCloud() {
         noStroke();
         fill(255);
@@ -218,25 +197,6 @@ public class TeamProject extends PApplet {
         textSize(20);
         text("Session score: "+userScore+".",120,760);
     }
-//    public void questionTextBox() {
-//        fill(100);
-//        rect(width/2-200, height/2 + 25, 400, 50);
-//        fill(255);
-//        textSize(28);
-//        text(textboxInput, width/2, height/2 + 50);
-//        fill(100);
-//        rect(width/2 + 200, height/2 + 25, 80, 50);
-//        fill(255);
-//        textSize(20);
-//        text("Submit", width/2 + 225, height/2 + 50);
-//    }
-//    public void keyPressed() {
-//        if (keyCode == BACKSPACE) {
-//            textboxInput = textboxInput.substring(0, max(0, textboxInput.length() - 1));
-//        } else if (keyCode != SHIFT && keyCode != CONTROL && keyCode != ALT) {
-//            textboxInput = textboxInput + key;
-//        }
-//    }
     public void mousePressed() {
         if (mouseX > width/2 - 200 && mouseX < width/2 + 200 && mouseY > height/2 - 100 && mouseY < height/2 + 100 && canAnswer) {
             textboxInput = JOptionPane.showInputDialog(null, "Enter your answer: ");
@@ -272,5 +232,192 @@ public class TeamProject extends PApplet {
         text("You have earned " + userScore + " points", width/2, height/2 + 25);
         textSize(20);
         text("Session score: "+userScore+".",120,760);
+        if(mouseX>=700&&mouseX<=800&&mouseY>=700&&mouseY<=800){
+            image(nextHover,700,700,100,100);
+        } else {
+            image(next,700,700,100,100);
+        }
+        if(mousePressed==true&&mouseX>=700&&mouseX<=800&&mouseY>=700&&mouseY<=800){
+            gameMode=MENU;
+        }
+    }
+    public void menuScreen() {
+        image(menuScreen,0,0,width,height);
+
+        if(mouseX>=20&&mouseX<=150&&mouseY>=10&&mouseY<=140){
+            image(homeHover,5,1,150,150);
+        }else{
+            image(home,5,1,150,150);
+        }
+        if(mousePressed==true&&mouseX>=20&&mouseX<=150&&mouseY>=10&&mouseY<=140){
+            gameMode=HOME;
+        }
+
+        image(mainMenu,170,8);
+
+        if(mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
+            image(playHover,5,190,100,100);
+        }else{
+            image(play,5,190,100,100);
+        }
+        if(mousePressed==true&&mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
+            gameMode=ANIMATION;
+        }
+        image(breathingAnimation,140,198);
+        if(mouseX>=5&&mouseX<=105&&mouseY>=317&&mouseY<=417){
+            image(playHover,5,317,100,100);
+        }else{
+            image(play,5,317,100,100);
+        }
+        if(mousePressed==true&&mouseX>=5&&mouseX<=105&&mouseY>=317&&mouseY<=417) {
+            gameMode = WEBSITEHUB;
+        }
+        image(websiteHub,140,325);
+    }
+    public void breathingAnimation() {
+        background(0);
+        float breathingPhase = millis() % breathingCycle;
+        if (breathingPhase < breathingCycle / 2) {
+            breathingFactor = (float) (breathingPhase / (breathingCycle / 2.0));
+        } else {
+            breathingFactor = (float) (2 - breathingPhase / (breathingCycle / 2.0));
+        }
+        for (int i = 0; i < circleCount; i++) {
+            fill(173, 216, 230, 98);
+            stroke(255, 100);
+            float x = circleX + (circleRadius + circleSpacing * breathingFactor) * sin(radians(circleRotation + 360 / circleCount * i));
+            float y = circleY + (circleRadius + circleSpacing * breathingFactor) * cos(radians(circleRotation + 360 / circleCount * i));
+            ellipse(x, y, circleRadius * 2 * breathingFactor, circleRadius * 2 * breathingFactor);
+        }
+        fill(173, 216, 230,180);
+        textSize(15);
+        textAlign(CENTER, BOTTOM);
+        text("Be still, and bring your attention to your breathing", width/2, height-30);
+        fill(255,290);
+        textSize(15);
+        textAlign(CENTER, BOTTOM);
+        text("Inhale, and exhale all the negativity", width/2, height-60);
+        if(mouseX>=width-170&&mouseX<=width-25&&mouseY>=10&&mouseY<=160){
+            image(homeHover,width-170,10,150,150);
+        } else {
+            image(home,width-170,10,150,150);
+        }
+        if(mousePressed==true&&mouseX>=width-170&&mouseX<=width-25&&mouseY>=10&&mouseY<=160){
+            gameMode=HOME;
+        }
+    }
+    public void websiteHub(){
+        buffer++;
+        background(66,135,245);
+
+        int tileSize=(width / 3)-30;
+        int tileX=mouseX/(width/3);
+        int tileY=mouseY/(width/3);
+        int index=tileX+tileY*3;
+        for (int i = 0; i < images.length; i++) {
+            int x = 40+ ((i % 3) * tileSize);
+            int y = 30+((i / 3) * tileSize);
+            if (mouseX > x && mouseX < x + tileSize && mouseY > y && mouseY < y + tileSize) {
+                tint(0, 153, 104, 126);
+            } else {
+                noTint();}
+            image(images[i], x, y, tileSize, tileSize);
+        }
+
+        if(mouseX>=40&&mouseX<275&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
+            link(urls[0]);
+        } else if(mouseX>=275&&mouseX<512&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
+            link(urls[1]);
+        } else if(mouseX>=512&&mouseX<748&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
+            link(urls[2]);
+        }else if(mouseX>=40&&mouseX<275&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
+            link(urls[3]);
+        }else if(mouseX>=275&&mouseX<512&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
+            link(urls[4]);
+        }else if(mouseX>=512&&mouseX<748&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
+            link(urls[5]);
+        }else if(mouseX>=40&&mouseX<275&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
+            link(urls[6]);
+        }else if(mouseX>=275&&mouseX<512&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
+            link(urls[7]);
+        }else if(mouseX>=512&&mouseX<748&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
+            link(urls[8]);
+        }
+//        if (index<urls.length&&mousePressed==true){
+//            link(urls[index]);
+//        }
+        imageMode(CORNER);
+        if(mouseX>=700&&mouseX<=800&&mouseY>=730&&mouseY<=800){
+            noTint();
+            image(homeHover,700,730,80,80);
+        } else {
+            noTint();
+            image(home, 700, 730, 80, 80);
+        }
+        if(mouseX>=700&&mouseX<=800&&mouseY>=730&&mouseY<=800&&mousePressed){
+            buffer=0;
+            gameMode=HOME;
+        }
+    }
+    public void music(){
+        image(menuScreen,0,0,width,height);
+        image(musicBorder,0,0,width,height);
+        image(musicNotes,noteX,noteY,width,height);
+        if(noteY<=0){
+            ping=true;
+        } else if(noteY>=90){
+            ping=false;
+        }
+        if(ping){
+            noteY++;
+        } else{
+            noteY--;
+        }
+        if(mouseX>=350&&mouseX<415&&mouseY>=712&&mouseY<=770){
+            image(playHover,300,670,150,150);
+        } else {
+            image(play, 300, 670, 150, 150);
+        }
+        if(mouseX>=350&&mouseX<415&&mouseY>=712&&mouseY<=770&&mousePressed){
+            music.play(1, volume);
+        }
+//        if(mouseX>=420&&mouseX<500&&mouseY>=712&&mouseY<=770){
+//            image(pauseHover,420,700,80,80);
+//        } else {
+//            image(pause,420,700,80,80);
+//        }
+//        if(mouseX>=420&&mouseX<500&&mouseY>=712&&mouseY<=770&&mousePressed){
+//            music.pause();
+//        }
+        if(mouseX>=5&&mouseX<105&&mouseY>=670&&mouseY<800){
+            image(addHover,5,670,100,100);
+        } else {
+            image(add,5,670,100,100);
+        }
+        if(mouseX>=5&&mouseX<105&&mouseY>=670&&mouseY<800&&mousePressed){
+            volume=(float)(volume+0.1);
+            music.amp(volume);
+        }
+//        if(mouseX>=150&&mouseX<250&&mouseY>=670&&mouseY<800){
+//            image(minusHover,150,670,100,100);
+//        } else {
+//            image(minus,150,670,100,100);
+//        }
+//        if(mouseX>=150&&mouseX<250&&mouseY>=670&&mouseY<800&&mousePressed){
+//            volume=(float)(volume-0.01);
+//            System.out.println(volume);
+//            music.amp(volume);
+//        }
+        if(mouseX>=700&&mouseX<=800&&mouseY>=700&&mouseY<=780){
+            image(homeHover,700,700,100,100);
+        } else {
+            image(home, 700, 700, 100, 100);
+        }
+        if(mouseX>=700&&mouseX<=800&&mouseY>=700&&mouseY<=780&&mousePressed){
+            gameMode=HOME;
+        }
+        fill(0);
+        text("X: "+mouseX,10,700);
+        text("Y: "+mouseY,10,720);
     }
 }
