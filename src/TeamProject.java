@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class TeamProject extends PApplet {
     PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,
-            homeHover,mainMenu,breathingAnimation,userSelect;
+            homeHover,mainMenu,breathingAnimation,userSelect,next,nextHover;
     final int HOME=0;
     final int PLANT=1;
     final int MENU=2;
@@ -22,21 +22,24 @@ public class TeamProject extends PApplet {
     float circleRotation = -1;
     float breathingFactor = 0.0F;
     int questionPicker = (int) random(3);
-    int gameMode=STARTUPQUESTION;
+    int gameMode=HOME;
     int qPickScreen=QCLOUD;
+    int userScore = 0;
+    int plantCounter = 0;
     PImage[] plantAnimation=new PImage[7];
     String textboxInput = "";
     boolean showResult = false;
-    int userScore = 0;
-    boolean canAnswer = true;
+    boolean canAnswer = false;
 
 
     public void settings() {
         size(800, 800);
+        for(int i=0; i<plantAnimation.length;i++){
+            plantAnimation[i]=loadImage("plant"+(i+1)+".png");
+        }
     }
 
     public void draw() {
-
         switch(gameMode) {
             case(HOME):
                 homeScreen();
@@ -61,7 +64,6 @@ public class TeamProject extends PApplet {
                 }
                 break;
         }
-
     }
 
     public static void main(String[] args) {
@@ -125,14 +127,42 @@ public class TeamProject extends PApplet {
             image(quit,50,height-210);
         }
         if (mousePressed==true&&mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30){
-            gameMode=MENU;
+            gameMode=PLANT;
         }
         if(mouseX>=width-160&&mouseX<=width&&mouseY>=height-150&&mouseY<=height-30){
             image(playHover,width-160,height-180);
         }
     }
     public void plantAnimation(){
+        next=loadImage("NextConcept.png");
+        nextHover=loadImage("NextHoverConcept.png");
 
+        imageMode(CORNER);
+//        image(plantAnimation[plantCounter/90%plantAnimation.length],0,0,width,height);
+        if(plantCounter<180 && (plantCounter/20)%2==0){
+            image(plantAnimation[0],0,0,width,height);
+        } else if (plantCounter<180 && (plantCounter/20)%2!=0){
+            image(plantAnimation[1],0,0,width,height);
+        } else if (plantCounter>=180&&plantCounter<360&&(plantCounter/20)%2==0){
+            image(plantAnimation[2],0,0,width,height);
+        } else if (plantCounter>=180&&plantCounter<360&&(plantCounter/20)%2!=0){
+            image(plantAnimation[3],0,0,width,height);
+        } else if (plantCounter>=360&&plantCounter<400){
+            image(plantAnimation[4],0,0,width,height);
+        } else if (plantCounter>=400&&(plantCounter/20)%2==0){
+            image(plantAnimation[5],0,0,width,height);
+        } else if (plantCounter>=400&&(plantCounter/20)%2!=0){
+            image(plantAnimation[6],0,0,width,height);
+        }
+        if (plantCounter>580&&mouseX>=700&&mouseX<=800&&mouseY>=715&&mouseY<=800){
+            image(nextHover,700,715,100,100);
+        } else if (plantCounter>580){
+            image(next,700,715,100,100);
+        }
+        if (plantCounter>580&&mouseX>=700&&mouseX<=800&&mouseY>=715&&mouseY<=800&&mousePressed==true){
+            gameMode=STARTUPQUESTION;
+        }
+        plantCounter++;
     }
     public void menuScreen() {
         menuScreen=loadImage("MenuScreenConcept.png");
@@ -223,6 +253,10 @@ public class TeamProject extends PApplet {
         }
     }
     public void startupQuestionScreen(){
+        canAnswer=true;
+        rectMode(CORNER);
+        fill(66,135,245);
+        rect(0,0,width,height);
         questionCloud();
         if (mousePressed){
             mousePressed();

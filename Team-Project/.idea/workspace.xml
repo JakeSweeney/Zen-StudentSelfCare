@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="37da2302-b1d5-441c-92e4-8dd610e55c48" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../src/userData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/Team_Projectv0_02/Team Projectv0.02.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/Team_Projectv0_02/Team Projectv0.02.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/artifacts/Team_Projectv0_03/Team Projectv0.03.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../out/artifacts/Team_Projectv0_03/Team Projectv0.03.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/Team Project/TeamProject.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/Team Project/TeamProject.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/TeamProject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/TeamProject.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2M1TJ7U4fGH1IA7QvKojAMJf6ku" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="37da2302-b1d5-441c-92e4-8dd610e55c48" name="Changes" comment="" />
+      <created>1676934013675</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676934013675</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
