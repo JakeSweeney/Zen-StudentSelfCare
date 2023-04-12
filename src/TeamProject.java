@@ -6,7 +6,7 @@ import javax.swing.*;
 public class TeamProject extends PApplet {
     PImage titleScreen,title,quit,quitHover,play,playHover,menuScreen,home,
             homeHover,mainMenu,breathingAnimation,next,nextHover,websiteHub,
-            musicBorder,musicNotes,pause,pauseHover,add,addHover,minus,minusHover;
+            musicBorder,musicNotes,pause,pauseHover,add,addHover,minus,minusHover,calmingMusic;
     final int HOME=0;
     final int PLANT=1;
     final int MENU=2;
@@ -28,7 +28,7 @@ public class TeamProject extends PApplet {
     float noteY = 0;
     float volume = (float) 0.2;
     int questionPicker = (int) random(3);
-    int gameMode=MUSIC;
+    int gameMode=HOME;
     int qPickScreen=QCLOUD;
     int userScore = 0;
     int plantCounter = 0;
@@ -78,6 +78,7 @@ public class TeamProject extends PApplet {
         addHover=loadImage("addHover.png");
         minus=loadImage("minus.png");
         minusHover=(loadImage("minusHover.png"));
+        calmingMusic=loadImage("calmingMusic.png");
     }
 
     public void draw() {
@@ -255,24 +256,34 @@ public class TeamProject extends PApplet {
 
         image(mainMenu,170,8);
 
-        if(mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
+        if(mouseX>=38&&mouseX<=85&&mouseY>=217&&mouseY<=257){
             image(playHover,5,190,100,100);
         }else{
             image(play,5,190,100,100);
         }
-        if(mousePressed==true&&mouseX>=5&&mouseX<=105&&mouseY>=190&&mouseY<=290){
+        if(mousePressed&&mouseX>=38&&mouseX<=85&&mouseY>=217&&mouseY<=257){
             gameMode=ANIMATION;
         }
         image(breathingAnimation,140,198);
-        if(mouseX>=5&&mouseX<=105&&mouseY>=317&&mouseY<=417){
+        if(mouseX>=38&&mouseX<=85&&mouseY>=344&&mouseY<=384){
             image(playHover,5,317,100,100);
         }else{
             image(play,5,317,100,100);
         }
-        if(mousePressed==true&&mouseX>=5&&mouseX<=105&&mouseY>=317&&mouseY<=417) {
-            gameMode = WEBSITEHUB;
+        if(mousePressed&&mouseX>38&&mouseX<=85&&mouseY>=344&&mouseY<=384) {
+            gameMode=WEBSITEHUB;
         }
         image(websiteHub,140,325);
+        if(mouseX>=38&&mouseX<=85&&mouseY>=478&&mouseY<=517){
+            image(playHover,5,450,100,100);
+        } else {
+            image(play,5,450,100,100);
+        }
+        if(mouseX>=38&&mouseX<=85&&mouseY>=478&&mouseY<=517&&mousePressed){
+            gameMode=MUSIC;
+        }
+        image(calmingMusic,140,450);
+        text("Session score: "+userScore+".",700,50);
     }
     public void breathingAnimation() {
         background(0);
@@ -303,6 +314,7 @@ public class TeamProject extends PApplet {
             image(home,width-170,10,150,150);
         }
         if(mousePressed==true&&mouseX>=width-170&&mouseX<=width-25&&mouseY>=10&&mouseY<=160){
+            //userScore=userScore+20;
             gameMode=HOME;
         }
     }
@@ -326,22 +338,31 @@ public class TeamProject extends PApplet {
 
         if(mouseX>=40&&mouseX<275&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
             link(urls[0]);
+            userScore=userScore+20;
         } else if(mouseX>=275&&mouseX<512&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
             link(urls[1]);
+            userScore=userScore+20;
         } else if(mouseX>=512&&mouseX<748&&mouseY>=30&&mouseY<265&&mousePressed&&buffer>10){
             link(urls[2]);
+            userScore=userScore+20;
         }else if(mouseX>=40&&mouseX<275&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
             link(urls[3]);
+            userScore=userScore+20;
         }else if(mouseX>=275&&mouseX<512&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
             link(urls[4]);
+            userScore=userScore+20;
         }else if(mouseX>=512&&mouseX<748&&mouseY>=265&&mouseY<501&&mousePressed&&buffer>10){
             link(urls[5]);
+            userScore=userScore+20;
         }else if(mouseX>=40&&mouseX<275&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
             link(urls[6]);
+            userScore=userScore+20;
         }else if(mouseX>=275&&mouseX<512&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
             link(urls[7]);
+            userScore=userScore+20;
         }else if(mouseX>=512&&mouseX<748&&mouseY>=501&&mouseY<738&&mousePressed&&buffer>10){
             link(urls[8]);
+            userScore=userScore+20;
         }
 //        if (index<urls.length&&mousePressed==true){
 //            link(urls[index]);
@@ -380,6 +401,7 @@ public class TeamProject extends PApplet {
         }
         if(mouseX>=350&&mouseX<415&&mouseY>=712&&mouseY<=770&&mousePressed){
             music.play(1, volume);
+            userScore=userScore+50;
         }
 //        if(mouseX>=420&&mouseX<500&&mouseY>=712&&mouseY<=770){
 //            image(pauseHover,420,700,80,80);
@@ -414,10 +436,9 @@ public class TeamProject extends PApplet {
             image(home, 700, 700, 100, 100);
         }
         if(mouseX>=700&&mouseX<=800&&mouseY>=700&&mouseY<=780&&mousePressed){
+            music.stop();
             gameMode=HOME;
         }
-        fill(0);
-        text("X: "+mouseX,10,700);
-        text("Y: "+mouseY,10,720);
+
     }
 }
