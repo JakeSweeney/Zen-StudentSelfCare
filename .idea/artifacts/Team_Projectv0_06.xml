@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Team Projectv0.06">
+    <output-path>$PROJECT_DIR$/out/artifacts/Team_Projectv0_06</output-path>
+    <root id="archive" name="Team Projectv0.06.jar">
+      <element id="module-output" name="Team Project" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/android.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/javamp3-1.0.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/sound.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/processing-sound.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/jogl-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Processing/processing-4.0.1-windows-x64/processing-4.0.1/core/library/gluegen-rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/jsyn-20171016.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
